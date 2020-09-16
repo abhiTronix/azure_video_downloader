@@ -30,7 +30,7 @@ You can watch this video https://youtu.be/X5e3xQBeqf8 to download the folder con
 
 	```sh
 	# run these commands in your terminal/command-prompt/powershell
-	python -m pip install -U --user requirement.txt
+	python -m pip install --user -r requirements.txt
 	```
  
 5.	Download and extract FFmpeg binaries: Remember you must require FFmpeg in order to merge audio and video files automatically. In order to setup FFmpeg on your computer easily you can download `ffmpeg.zip` file from our repository: 
