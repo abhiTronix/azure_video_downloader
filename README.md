@@ -49,9 +49,9 @@ For downloading video, a **ISM URL** _(URL with `.ism` extension)_ is required a
 
 1.	Go the video page where video is being played.
 2.	Double check video is in the state of being played and not paused.
-3.	Right-click on the webpage and select "Inspect" or something similar (See below).
+3.	Right-click on the webpage and select "Inspect" or something similar.
 4.	On clicking Inspect, A menu will open, and on the menu click "Network" tab.
-5.	In "Network" tab, write "Fragments" in "filter" search field (see below).
+5.	In "Network" tab, write "Fragments" in "filter" search field.
 6.	Select the first filter option (if available, otherwise make sure the video is still playing in the background). Right-click on the selected option and click "copy", and then "Copy link address" in order to copy that URL.
 7.	Now your copied URL will look something like this:
 	```sh
@@ -105,7 +105,7 @@ For downloading video, a **ISM URL** _(URL with `.ism` extension)_ is required a
 
 1.	Open a terminal/command-prompt/powershell of your choice, in the `azure_video_downloader` folder where your script exists.
 
-2.	To get started, you can view help by simply use "-h / --help" flag for getting familiar with all the available options:
+2.	To get started, you can view help by simply use `-h / --help` flag for getting familiar with all the available options:
 
 	```sh
 	$ python azure_downloader.py -h
