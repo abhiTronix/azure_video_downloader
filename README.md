@@ -22,11 +22,11 @@ Remember: You just have to perform these following 5-steps only one time!
 2.	Download AZURE Video-Downloader Script: 
 You can watch this video https://youtu.be/X5e3xQBeqf8 to download the folder containing script from a browser OR from git software. You can download this script from our GitHub repository
 
-3.	Extract the ZIP file: If you downloaded script from browser it will be in compressed format such as master.zip. Right-click on it and select “Extract” to extract the content of this zip file. For reference in this document, let's call the extracted folder as script_folder. 
+3.	Extract the ZIP file: If you downloaded script from browser it will be in compressed format such as master.zip. Right-click on it and select “Extract” to extract the content of this zip file. For reference in this document, let's call the extracted folder as `azure_video_downloader`. 
 
-	**Note :bulb::** You don’t need to perform above step if you downloaded script_folder using git software!
+	**Note :bulb::** You don’t need to perform above step if you downloaded `azure_video_downloader` folder using git software!
  
-4.	Now go into the script folder and open the terminal. Thereby, install required python dependencies by running following command:
+4.	Now go into the `azure_video_downloader` folder and open the terminal. Thereby, install required python dependencies by running following command:
 
 	```sh
 	# run these commands in your terminal/command-prompt/powershell
@@ -37,7 +37,7 @@ You can watch this video https://youtu.be/X5e3xQBeqf8 to download the folder con
  
 	**Download ffmpeg.zip file:** https://github.com/abhiTronix/azure_video_downloader/releases/download/v1.0.0/ffmpeg.zip
 
-6. After downloading, just copy the zip file inside your script_folder, and just Right-click and select “Extract” to extract its content right away. The extracted folder name must be `ffmpeg`.
+6. After downloading, just copy the zip file inside your `azure_video_downloader` folder, and just Right-click and select “Extract” to extract its content right away. The extracted folder name must be `ffmpeg`.
 
 &nbsp;
  
@@ -103,7 +103,7 @@ For downloading video, a **ISM URL** _(URL with `.ism` extension)_ is required a
 
 ### Usage
 
-1.	Open a terminal/command-prompt/powershell of your choice, in the script_folder where your script exists.
+1.	Open a terminal/command-prompt/powershell of your choice, in the `azure_video_downloader` folder where your script exists.
 
 2.	To get started, you can view help by simply use "-h / --help" flag for getting familiar with all the available options:
 
@@ -131,7 +131,7 @@ For downloading video, a **ISM URL** _(URL with `.ism` extension)_ is required a
 	```
 	and video start downloading.
 
-4.	**[Optional]** By default, our python script automatically assign file name of the output video file using ISM URL and downloads it to `output` directory of script_folder. But, you can also specify the output filename/file-directory using `-out/--output` command as follows:
+4.	**[Optional]** By default, our python script automatically assign file name of the output video file using ISM URL and downloads it to `output` directory of `azure_video_downloader` folder. But, you can also specify the output filename/file-directory using `-out/--output` command as follows:
 
 	```sh
 	$ python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism -o Overview.mp4
@@ -143,7 +143,7 @@ For downloading video, a **ISM URL** _(URL with `.ism` extension)_ is required a
 	$ python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism -o C:/Overview.mp4
 	```
 
-5.	**[Optional/Only for developers]** By default python script uses FFmpeg(used to merge audio and video) provided in the `ffmpeg` folder of script_folder, that we downloaded and extracted in page-1, but you can assign your own FFmpeg binaries too using `-f/--ffmpeg` option as follows:
+5.	**[Optional/Only for developers]** By default python script uses FFmpeg(used to merge audio and video) provided in the `ffmpeg` folder of `azure_video_downloader` folder, that we downloaded and extracted in page-1, but you can assign your own FFmpeg binaries too using `-f/--ffmpeg` option as follows:
 
 	```sh
 	$ python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism -o Overview.mp4 -f "C:/ffmpeg/bin/ffmpeg.exe"
