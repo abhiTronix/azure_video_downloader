@@ -35,7 +35,7 @@ You can watch this video https://youtu.be/X5e3xQBeqf8 to download the folder con
  
 5.	Download and extract FFmpeg binaries: Remember you must require FFmpeg in order to merge audio and video files automatically. In order to setup FFmpeg on your computer easily you can download `ffmpeg.zip` file from our repository: 
  
-	**Download ffmpeg.zip file from:** http://xyz.com/to_be_implemented
+	**Download ffmpeg.zip file:** https://github.com/abhiTronix/azure_video_downloader/releases/download/v1.0.0/ffmpeg.zip
 
 6. After downloading, just copy the zip file inside your script_folder, and just Right-click and select “Extract” to extract its content right away. The extracted folder name must be `ffmpeg`.
 
