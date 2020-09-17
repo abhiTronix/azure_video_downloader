@@ -102,6 +102,14 @@ if __name__ == "__main__":
                 "ffmpeg.exe" if os_windows else "ffmpeg",
             ]
         )
+    elif os.path.isdir(os.path.join(ffmpeg_location, "ffmpeg")):
+        ffmpeg_location = os.path.join(
+            *[
+                os.path.join(ffmpeg_location, "ffmpeg"),
+                return_ffmpeg_foldername(),
+                "ffmpeg.exe" if os_windows else "ffmpeg",
+            ]
+        )
     else:
         ffmpeg_location = ""
 
