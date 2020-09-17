@@ -113,7 +113,7 @@ if __name__ == "__main__":
     else:
         ffmpeg_location = ""
 
-    if not os_windows and not os.access(ffmpeg_location, os.X_OK):
+    if ffmpeg_location and not os_windows and not os.access(ffmpeg_location, os.X_OK):
         os.chmod(ffmpeg_location, 509)
 
     ydl_opts = {
