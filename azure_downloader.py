@@ -94,18 +94,18 @@ if __name__ == "__main__":
     inputs += "/manifest(format=mpd-time-csf)"
 
     ffmpeg_location = os.path.abspath(args["ffmpeg"])
-    if os.path.isdir(ffmpeg_location):
+    if os.path.isdir(os.path.join(ffmpeg_location, "ffmpeg")):
         ffmpeg_location = os.path.join(
             *[
-                ffmpeg_location,
+                os.path.join(ffmpeg_location, "ffmpeg"),
                 return_ffmpeg_foldername(),
                 "ffmpeg.exe" if os_windows else "ffmpeg",
             ]
         )
-    elif os.path.isdir(os.path.join(ffmpeg_location, "ffmpeg")):
+    elif os.path.isdir(ffmpeg_location):
         ffmpeg_location = os.path.join(
             *[
-                os.path.join(ffmpeg_location, "ffmpeg"),
+                ffmpeg_location,
                 return_ffmpeg_foldername(),
                 "ffmpeg.exe" if os_windows else "ffmpeg",
             ]
