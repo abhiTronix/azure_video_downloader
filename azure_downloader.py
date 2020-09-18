@@ -87,7 +87,8 @@ if __name__ == "__main__":
                 )
                 output += os.path.join(abs_path, extracted)
             else:
-                output += abs_path
+                f_name = os.path.basename(abspath).replace(".", "_")
+                output += os.path.join(os.path.dirname(abspath), f_name)
         else:
             raise ValueError("Invalid Output `-o/--output` path provided!")
 
@@ -113,7 +114,11 @@ if __name__ == "__main__":
     else:
         ffmpeg_location = ""
 
-    if ffmpeg_location and not os_windows and not os.access(ffmpeg_location, os.X_OK):
+    if (
+        ffmpeg_location
+        and platform.system() == "Linux"
+        and not os.access(ffmpeg_location, os.X_OK)
+    ):
         os.chmod(ffmpeg_location, 509)
 
     ydl_opts = {
