@@ -87,8 +87,8 @@ if __name__ == "__main__":
                 )
                 output += os.path.join(abs_path, extracted)
             else:
-                f_name = os.path.basename(abspath).replace(".", "_")
-                output += os.path.join(os.path.dirname(abspath), f_name)
+                f_name = os.path.basename(abs_path).replace(".", "_")
+                output += os.path.join(os.path.dirname(abs_path), f_name)
         else:
             raise ValueError("Invalid Output `-o/--output` path provided!")
 
