@@ -103,9 +103,9 @@ For downloading video, a **ISM URL** _(URL with `.ism` extension)_ is required a
 
 ### Usage
 
-1.	Open a terminal/command-prompt/powershell of your choice, in the `azure_video_downloader` folder where your script exists.
+-	Open a terminal/command-prompt/powershell of your choice, in the `azure_video_downloader` folder where your script exists.
 
-2.	To get started, you can view help by simply use `-h / --help` flag for getting familiar with all the available options:
+-	To get started, you can view help by simply use `-h / --help` flag for getting familiar with all the available options:
 
 	```sh
 	$ python3 azure_downloader.py -h
@@ -128,13 +128,12 @@ For downloading video, a **ISM URL** _(URL with `.ism` extension)_ is required a
 
 	```
 
-3.	**[Compulsory]** Now give extracted ISM URL to the input `-i/--input` of the python script as follows: 
+-	**[Compulsory]** Now give extracted ISM URL to the input `-i/--input` of the python script as follows: 
 	```sh
 	$ python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism
 	```
 	and video start downloading.
-
-4.	**[Optional]** By default, our python script automatically assign file name of the output video file using ISM URL and downloads it to `output` directory of `azure_video_downloader` folder. But, you can also specify the output filename/file-directory using `-out/--output` command as follows:
+-	**[Optional]** By default, our python script automatically assign file name of the output video file using ISM URL and downloads it to `output` directory of `azure_video_downloader` folder. But, you can also specify the output filename/file-directory using `-out/--output` command as follows:
 
 	```sh
 	$ python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism -o Overview.mp4
@@ -145,8 +144,15 @@ For downloading video, a **ISM URL** _(URL with `.ism` extension)_ is required a
 	```sh
 	$ python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism -o C:/Overview.mp4
 	```
+	and video start downloading.
+-	**[Optional]** You can also specify the quality of stream using `-q/--quality` command as follows:
 
-5.	**[Optional/Only for developers]** By default python script uses FFmpeg(used to merge audio and video) provided in the `ffmpeg` folder of `azure_video_downloader` folder, that we downloaded and extracted in page-1, but you can assign your own FFmpeg binaries too using `-f/--ffmpeg` option as follows:
+	```sh
+	$ python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism -q "low"
+	```
+	for downloading <=480p Videos.
+	
+-	**[Optional/Only for developers]** By default python script uses FFmpeg(used to merge audio and video) provided in the `ffmpeg` folder of `azure_video_downloader` folder, that we downloaded and extracted in page-1, but you can assign your own FFmpeg binaries too using `-f/--ffmpeg` option as follows:
 
 	```sh
 	$ python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism -o Overview.mp4 -f "C:/ffmpeg/bin/ffmpeg.exe"
