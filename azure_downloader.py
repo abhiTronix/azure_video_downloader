@@ -24,7 +24,7 @@ import platform
 import argparse
 
 try:
-    # import OpenCV Binaries
+    # import Youtube-DL Binaries
     import youtube_dl
 except ImportError:
     raise ImportError(
@@ -67,6 +67,14 @@ if __name__ == "__main__":
         default="ffmpeg",
         help="Location of FFmpeg static binary (Required to merge Audio/Video Streams).",
     )
+    ap.add_argument(
+        "-q",
+        "--quality",
+        type=str,
+        default="high",
+        choices=["low", "medium", "high"],
+        help="Select Video-Stream Quality.",
+    )
     args = vars(ap.parse_args())
 
     inputs = args["input"]
@@ -87,8 +95,8 @@ if __name__ == "__main__":
                 )
                 output += os.path.join(abs_path, extracted)
             else:
-                f_name = os.path.basename(abs_path).replace(".", "_")
-                output += os.path.join(os.path.dirname(abs_path), f_name)
+                f_name = os.path.basename(abspath).replace(".", "_")
+                output += os.path.join(os.path.dirname(abspath), f_name)
         else:
             raise ValueError("Invalid Output `-o/--output` path provided!")
 
@@ -121,10 +129,14 @@ if __name__ == "__main__":
     ):
         os.chmod(ffmpeg_location, 509)
 
-    ydl_opts = {
-        "format": "bestvideo+bestaudio/best",
-        "outtmpl": output + ".%(ext)s",
-    }
+    ydl_opts = {}
+
+    qualities = {"high": ">=720", "medium": "<720", "low": "<=480"}
+    ydl_opts["format"] = "bestvideo[height{}]+bestaudio/best[height{}]".format(
+        qualities[args["quality"]], qualities[args["quality"]]
+    )
+
+    ydl_opts["outtmpl"] = output + ".%(ext)s"
     if ffmpeg_location:
         ydl_opts["ffmpeg_location"] = ffmpeg_location
     else:
