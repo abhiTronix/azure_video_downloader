@@ -108,20 +108,23 @@ For downloading video, a **ISM URL** _(URL with `.ism` extension)_ is required a
 2.	To get started, you can view help by simply use `-h / --help` flag for getting familiar with all the available options:
 
 	```sh
-	$ python azure_downloader.py -h
-
+	$ python3 azure_downloader.py -h
 	usage: azure_downloader.py [-h] -i INPUT [-o OUTPUT] [-f FFMPEG]
+				   [-q {low,medium,high}]
 
 	Azure Media Services Video-Downloader.
 
 	optional arguments:
 	  -h, --help            show this help message and exit
 	  -i INPUT, --input INPUT
-	                        URL of valid ISM Videostream.
+				URL of valid ISM Videostream.
 	  -o OUTPUT, --output OUTPUT
-	                        Output Video filename (with/without path).
+				Output Video filename (with/without path).
 	  -f FFMPEG, --ffmpeg FFMPEG
-	                        Location of FFmpeg static binary (Required to merge Audio/Video Streams).
+				Location of FFmpeg static binary (Required to merge
+				Audio/Video Streams).
+	  -q {low,medium,high}, --quality {low,medium,high}
+				Select Video-Stream Quality.
 
 	```
 
