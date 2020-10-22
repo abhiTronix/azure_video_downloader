@@ -19,7 +19,7 @@
 
 
 # import libs
-import os
+import os, re
 import platform
 import argparse
 
@@ -44,6 +44,59 @@ def return_ffmpeg_foldername():
         return "amd64" if "64" in platform.machine() else "i686"
 
 
+def split(string, maxsplit=0):
+    delimiters = ",", "+"
+    regexPattern = "|".join(map(re.escape, delimiters))
+    return re.split(regexPattern, string, maxsplit)
+
+
+def clean_extracted(extracted):
+    if not extracted:
+        return []
+    cleaned = []
+    for ext in extracted:
+        if ext.strip().endswith(".ism"):
+            cleaned.append(ext.strip())
+        elif ".ism" in ext.strip():
+            splitted = ext.strip().split(".ism")
+            if len(splitted) != 2:
+                print("Invalid value skipped: " + ext)
+                continue
+            cleaned.append(splitted[0] + ".ism")
+        else:
+            print("Invalid Value: " + ext)
+    return cleaned
+
+
+def parse_options(string):
+    splitted = split(string)
+    return clean_extracted(splitted)
+
+
+def parse_options_file(path):
+    contents = []
+    with open(path) as f:
+        contents = f.read().splitlines()
+    return clean_extracted([x for x in contents if x.strip()])
+
+
+def parse_output(out_path, inp_path):
+    output = ""
+    abs_path = os.path.abspath(out_path)
+    if (os_windows or os.access in os.supports_effective_ids) and os.access(
+        os.path.dirname(abs_path), os.W_OK
+    ):
+        if os.path.isdir(abs_path):
+            extracted = (
+                os.path.basename(inp_path).replace("%20", "_").replace(".ism", "")
+            )
+            output += os.path.join(abs_path, extracted)
+        else:
+            f_name = os.path.basename(abs_path).replace(".", "_")
+            output += os.path.join(os.path.dirname(abs_path), f_name)
+    return output
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Azure Media Services Video-Downloader.")
     ap.add_argument(
@@ -51,7 +104,7 @@ if __name__ == "__main__":
         "--input",
         required=True,
         type=str,
-        help="URL of valid ISM Videostream.",
+        help="URL(s) of valid ISM stream(s) or File containing multiple ISM URLs.",
     )
     ap.add_argument(
         "-o",
@@ -71,36 +124,56 @@ if __name__ == "__main__":
         "-q",
         "--quality",
         type=str,
-        default="high",
+        default="medium",
         choices=["low", "medium", "high"],
         help="Select Video-Stream Quality.",
     )
     args = vars(ap.parse_args())
 
     inputs = args["input"]
-    assert str(inputs).endswith(".ism"), "Invalid Input `-i/--input` URL provided!"
+    Inputisfile = False
+    if set(",+").intersection(inputs):
+        inputs = parse_options(inputs)
+        assert inputs, "Invalid Input `-i/--input` URL provided!"
+    elif os.path.isfile(inputs):
+        inputs = parse_options_file(inputs)
+        assert inputs, "Invalid Input `-i/--input` URL provided!"
+        Inputisfile = True
+    else:
+        assert str(inputs).endswith(".ism"), "Invalid Input `-i/--input` URL provided!"
 
-    output = ""
+    output = [] if isinstance(inputs, list) else ""
     os_windows = True if os.name == "nt" else False
     if args["output"] == "":
-        output = os.path.basename(inputs).replace("%20", "_").replace(".ism", "")
-    else:
-        abs_path = os.path.abspath(args["output"])
-        if (os_windows or os.access in os.supports_effective_ids) and os.access(
-            os.path.dirname(abs_path), os.W_OK
-        ):
-            if os.path.isdir(abs_path):
-                extracted = (
-                    os.path.basename(inputs).replace("%20", "_").replace(".ism", "")
+        if isinstance(inputs, list):
+            for inp in inputs:
+                output.append(
+                    os.path.basename(inp).replace("%20", "_").replace(".ism", "")
                 )
-                output += os.path.join(abs_path, extracted)
-            else:
-                f_name = os.path.basename(abs_path).replace(".", "_")
-                output += os.path.join(os.path.dirname(abs_path), f_name)
         else:
-            raise ValueError("Invalid Output `-o/--output` path provided!")
+            output += os.path.basename(inputs).replace("%20", "_").replace(".ism", "")
+    else:
+        if set(",+").intersection(args["output"]):
+            outputs = parse_options(args["output"])
+            assert isinstance(
+                inputs, list
+            ), "Invalid Multiple Output `-o/--output` paths provided for a single ISM input!"
+            assert len(inputs) == len(
+                outputs
+            ), "Invalid Multiple Output `-o/--output` paths provided for {} ISM Inputs!".format(
+                len(inputs)
+            )
+            for out, inp in (outputs, inputs):
+                output.append(parse_output(out, inp))
+        else:
+            out = args["output"]
+            if isinstance(inputs, list):
+                for inp in inputs:
+                    output.append(parse_output(out, inp))
+            else:
+                output += parse_output(out, inputs)
 
-    inputs += "/manifest(format=mpd-time-csf)"
+    assert output, "Invalid Output `-o/--output` path provided!"
 
     ffmpeg_location = os.path.abspath(args["ffmpeg"])
     if os.path.isdir(os.path.join(ffmpeg_location, "ffmpeg")):
@@ -136,7 +209,6 @@ if __name__ == "__main__":
         qualities[args["quality"]], qualities[args["quality"]]
     )
 
-    ydl_opts["outtmpl"] = output + ".%(ext)s"
     if ffmpeg_location:
         ydl_opts["ffmpeg_location"] = ffmpeg_location
     else:
@@ -144,5 +216,24 @@ if __name__ == "__main__":
             "WARNING: FFmpeg not available, thereby Audio/Video streams will not be merged!"
         )
 
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([inputs])
+    if isinstance(inputs, list):
+        for inp, out in zip(inputs, output):
+            print(
+                "Downloading Video: `{}.mp4` from playlist".format(
+                    os.path.basename(out)
+                )
+            )
+            ydl_opts["outtmpl"] = out + ".%(ext)s"
+            inp += "/manifest(format=mpd-time-csf)"
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([inp])
+        if Inputisfile:
+            with open(args["input"], "r+") as raw:
+                raw.seek(0)
+                raw.truncate()
+                raw.write("# Paste your URLs line-by-line below:\n")
+    else:
+        inputs += "/manifest(format=mpd-time-csf)"
+        ydl_opts["outtmpl"] = output + ".%(ext)s"
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([inputs])
