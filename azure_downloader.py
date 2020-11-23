@@ -182,9 +182,9 @@ if __name__ == "__main__":
         else:
             if isinstance(inputs, list):
                 for inp in inputs:
-                    output.append(parse_output(out, inp))
+                    output.append(parse_output(varout, inp))
             else:
-                output += parse_output(out, inputs)
+                output += parse_output(varout, inputs)
 
     assert output, "Invalid Output `-o/--output` path provided!"
 
