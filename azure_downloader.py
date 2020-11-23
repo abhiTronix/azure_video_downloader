@@ -68,16 +68,21 @@ def clean_extracted(extracted):
     return cleaned
 
 
+def remove_comments(texts):
+    assert isinstance(texts, list), "Internal Script Error"
+    return [x.strip() for x in texts if not x.startswith("#")]
+
+
 def parse_options(string, clean=True):
     splitted = split(string)
-    return clean_extracted(splitted) if clean else splitted
+    return clean_extracted(splitted) if clean else remove_comments(splitted)
 
 
 def parse_options_file(path, clean=True):
     contents = []
     with open(path) as f:
         contents = f.read().splitlines()
-    contents = [x for x in contents if x.strip()]
+    contents = remove_comments([x for x in contents if x.strip()])
     return clean_extracted(contents) if clean else contents
 
 
@@ -94,7 +99,10 @@ def parse_output(out_path, inp_path):
             output += os.path.join(abs_path, extracted)
         else:
             f_name = os.path.basename(abs_path).replace(".", "_")
-            output += os.path.join(os.path.dirname(abs_path), f_name)
+            if os.path.dirname(abs_path) != os.path.dirname(os.path.realpath(__file__)):
+                output += os.path.join(os.path.dirname(abs_path), f_name)
+            else:
+                output += os.path.join("output", f_name)
     return output
 
 
