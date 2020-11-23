@@ -68,16 +68,17 @@ def clean_extracted(extracted):
     return cleaned
 
 
-def parse_options(string):
+def parse_options(string, clean=True):
     splitted = split(string)
-    return clean_extracted(splitted)
+    return clean_extracted(splitted) if clean else splitted
 
 
-def parse_options_file(path):
+def parse_options_file(path, clean=True):
     contents = []
     with open(path) as f:
         contents = f.read().splitlines()
-    return clean_extracted([x for x in contents if x.strip()])
+    contents = [x for x in contents if x.strip()]
+    return clean_extracted(contents) if clean else contents
 
 
 def parse_output(out_path, inp_path):
@@ -144,7 +145,8 @@ if __name__ == "__main__":
 
     output = [] if isinstance(inputs, list) else ""
     os_windows = True if os.name == "nt" else False
-    if args["output"] == "":
+    varout = args["output"]
+    if varout == "":
         if isinstance(inputs, list):
             for inp in inputs:
                 output.append(
@@ -153,8 +155,8 @@ if __name__ == "__main__":
         else:
             output += os.path.basename(inputs).replace("%20", "_").replace(".ism", "")
     else:
-        if set(",+").intersection(args["output"]):
-            outputs = parse_options(args["output"])
+        if set(",+").intersection(varout):
+            outputs = parse_options(varout, clean=False)
             assert isinstance(
                 inputs, list
             ), "Invalid Multiple Output `-o/--output` paths provided for a single ISM input!"
@@ -163,10 +165,21 @@ if __name__ == "__main__":
             ), "Invalid Multiple Output `-o/--output` paths provided for {} ISM Inputs!".format(
                 len(inputs)
             )
-            for out, inp in (outputs, inputs):
+            for out, inp in zip(outputs, inputs):
+                output.append(parse_output(out, inp))
+        elif os.path.isfile(varout):
+            outputs = parse_options_file(varout, clean=False)
+            assert isinstance(
+                inputs, list
+            ), "Invalid Multiple Output `-o/--output` paths provided for a single ISM input!"
+            assert len(inputs) == len(
+                outputs
+            ), "Invalid Multiple Output `-o/--output` paths provided for {} ISM Inputs!".format(
+                len(inputs)
+            )
+            for out, inp in zip(outputs, inputs):
                 output.append(parse_output(out, inp))
         else:
-            out = args["output"]
             if isinstance(inputs, list):
                 for inp in inputs:
                     output.append(parse_output(out, inp))
