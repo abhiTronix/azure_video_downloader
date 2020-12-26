@@ -31,7 +31,7 @@ All following steps you have to perform only one time.
   
   ```sh
   cd script\_folder
-  python -m pip install -U --user requirement.txt
+  python -m pip install -r -U --user requirement.txt
   ```
 - **Step-4:** Download and extract _ffmpeg.zip_
 
