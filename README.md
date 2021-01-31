@@ -30,7 +30,7 @@ All following steps you have to perform only one time.
   Run these commands in your terminal/command-prompt/ power-shell
   
   ```sh
-  cd script\_folder
+  cd script_folder
   python -m pip install -r -U --user requirement.txt
   ```
 - **Step-4:** Download and extract _ffmpeg.zip_
