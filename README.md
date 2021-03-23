@@ -1,6 +1,6 @@
-# :inbox_tray: Azure Video-Downloader Python Script
+# Azure Video-Downloader Python Script :inbox_tray:
 
-_Video-Downloader Script written in Python that enables us to download videos from any online Azure Media Services on-the-go directly through our commandline. ⚡️_  
+_A Video-Downloader Python Script that enables us to download videos from any online Azure Media Services on-the-go directly through our commandline._  
 
 &nbsp;
 
@@ -102,11 +102,22 @@ ISM URL _(`https` URL with `.ism` extension)_ is necessary for our python script
 **Tip:💡** _You can view help by running `python azure_downloader.py -h` command to get familiar with all the available options._
 
 - Open a terminal/command-prompt/power-shell of your choice.
-- Give extracted ISM URL _(explained [above](#b-extracting-url))_ to the input `-i/--input` of the python script as follows:
+- Give extracted ISM URL _(explained [above](#b-extracting-url))_ to the input `-i/--input` of the python script as following and video start downloading:
   ```sh
   python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism
   ```
-  and video start downloading.
+  
+  ***OR give TXT file path containg multiple links(line-by-line):***
+  
+  ```sh 
+  python azure_downloader.py -i URLs.txt
+  ```
+  
+  ***OR give string of muliple URLs seperated by `,` or `+`***
+  
+   ```sh 
+   python azure_downloader.py -i "https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism,https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/DL1.ism,https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/DL2.ism"  
+   ```
 
 - **[Optional]** By default, our python script automatically assigns file name of the output video file using ISM URL and downloads it to `output` directory of script\_folder. But you can also specify the output filename/file-directory using _`-out/--output`_ command as follows:
   ```sh
@@ -116,8 +127,9 @@ ISM URL _(`https` URL with `.ism` extension)_ is necessary for our python script
   ***OR give full output path:***
 
   ```sh 
-  python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism%20 -o C:/Overview.mp4
+  python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism -o C:/Overview.mp4
   ```
+  
 - **[Optional/Only for developers]** By default python script uses FFmpeg(used to merge audio and video) provided in the `ffmpeg` folder of script\_folder, that we downloaded and extracted previously, but you can assign your own FFmpeg binaries too using _`-f/--ffmpeg`_ option as follows:
   ```sh
   python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism -o Overview.mp4 -f C:/ffmpeg/bin/ffmpeg.exe
