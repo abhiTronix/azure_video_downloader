@@ -107,7 +107,7 @@ ISM URL _(`https` URL with `.ism` extension)_ is necessary for our python script
   python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism
   ```
   
-  ***OR give TXT file path containg multiple links(line-by-line):***
+  ***OR give TXT file path containing multiple links(line-by-line):***
   
   ```sh 
   python azure_downloader.py -i URLs.txt
@@ -120,6 +120,9 @@ ISM URL _(`https` URL with `.ism` extension)_ is necessary for our python script
    ```
 
 - **[Optional]** By default, our python script automatically assigns file name of the output video file using ISM URL and downloads it to `output` directory of script\_folder. But you can also specify the output filename/file-directory using _`-out/--output`_ command as follows:
+
+  :warning: **Note:** This option does not works with input(`-i`) with multiple URLs.
+  
   ```sh
   python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism -o Overview.mp4
   ```
