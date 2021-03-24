@@ -107,13 +107,13 @@ ISM URL _(`https` URL with `.ism` extension)_ is necessary for our python script
   python azure_downloader.py -i https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism
   ```
   
-  ***OR give TXT file path containing multiple links(line-by-line):***
+  ***OR give TXT file path containing multiple URLs(line-by-line):***
   
   ```sh 
   python azure_downloader.py -i URLs.txt
   ```
   
-  ***OR give string of muliple URLs seperated by `,` or `+`***
+  ***OR give string of muliple URLs seperated by `,` or `+`***:
   
    ```sh 
    python azure_downloader.py -i "https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/Overview%20of%20AI%20ML.ism,https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/DL1.ism,https://streamdiat-inct.streaming.media.azure.net/f12251d4-d8e8-43f1-8202-737f7a186b34/DL2.ism"  
