@@ -11,8 +11,7 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 10
     default_labels:
-      - "dependencies"
-      - "dependabot
+    - "dependencies"
+    - "dependabot"
     reviewers:
-      - "abhiTronix"
-    
+    - "abhiTronix"
